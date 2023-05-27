@@ -38,6 +38,10 @@ class tic_tac_toe():
         if(pos_1d>=0):
             if(plate[pos_1d]==0):
                 plate[pos_1d] = self.flag
+            else:
+                pos_1d = -1 # 判为弃手
+        else:
+            pos_1d = -1
 
         self.__record.append(pos_1d)
         

@@ -2,6 +2,6 @@
 import os
 os.system("cls")
 
-import a
+import b as jj
 if __name__ == '__main__':
-    a.b_class()
+    jj.main_class()

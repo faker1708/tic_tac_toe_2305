@@ -4,7 +4,7 @@ from tic_tac_toe import tic_tac_toe
 import random
 
 import time
-class b_class():
+class main_class():
 
 
     def main(self):
