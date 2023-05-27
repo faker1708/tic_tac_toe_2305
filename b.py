@@ -18,7 +18,7 @@ class main_class():
 
         if(mode=='train'):
             epsilon = 0.9
-            epsilon = 0.5
+            # epsilon = 0.5
         else:
             epsilon = 1
         # epsilon = 0.5
@@ -92,7 +92,7 @@ class main_class():
                 sum_2 +=1
 
 
-        if(mode == 'train'):
+        if(mode == 'test'):
             print('avg',sum/n_episode,sum)
             print('avg',sum_2/n_episode,sum_2)
                 
@@ -120,6 +120,7 @@ class main_class():
         # self.dqn = dqn
         while(1):
             self.fm('train',2**10)
+            self.fm('test',2**10)
             self.fm('show',2**0)
 
 
