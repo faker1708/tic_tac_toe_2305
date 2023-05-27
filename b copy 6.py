@@ -40,34 +40,23 @@ class main_class():
             state ,flag = game.reset()
             while(1):
                 if(flag ==1):
-                    aa,ql = self.dqn.take_action(state,epsilon)  
-                    if(ql):
+                    _,ql = self.dqn.take_action(state,epsilon)  
+                    
 
-                        # print(len(ql),len(state))
+                    # print(action)
+                    if(ql): 
+                        pass
+                        # print('action',action,ql)      
+                        # for i,ele in enumerate(ql):
+                        #     if(i%6 == 6-1):
+                        #         enddd = '\n'
+                        #     else:
+                        #         enddd = ' '
+                        #     print(ele,end=enddd)
+                        # print(']',action,'\n\n')
 
-                        for pos_1d,flag in enumerate(state):
-                            if(flag>0):
-                                ql[pos_1d] = -2**10
-                        
-                        # print('s',state)
-                        ma = max(ql)
-                        # print('ma',ma)
-                        for i,q in enumerate(ql):
-                            if(ma==q):
-                                action = i
-                                break
-                        
-                        # print('ql',ql,action)
-                    else:
-                        action = aa
-
-                else:  
-                    while(1):
-
-                        action  = random.randint(0,game.action_dimension-2)
-                        if(state[action]==0):
-                            break
-
+                else:                 
+                    action  = random.randint(0,game.action_dimension-1)
 
                 state,flag,t,w = game.step(action)
                 exp = [state,action,0]
@@ -94,7 +83,7 @@ class main_class():
 
         if(mode == 'train'):
             print('avg',sum/n_episode,sum)
-            print('avg',sum_2/n_episode,sum_2)
+        # print('avg',sum_2/n_episode)
                 
 
 

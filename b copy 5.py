@@ -18,11 +18,9 @@ class main_class():
 
         if(mode=='train'):
             epsilon = 0.9
-            epsilon = 0.5
         else:
             epsilon = 1
         # epsilon = 0.5
-        # epsilon = 0.1
         
         if(mode=='show'):
             game.render_on = 1
@@ -40,34 +38,12 @@ class main_class():
             state ,flag = game.reset()
             while(1):
                 if(flag ==1):
-                    aa,ql = self.dqn.take_action(state,epsilon)  
-                    if(ql):
-
-                        # print(len(ql),len(state))
-
-                        for pos_1d,flag in enumerate(state):
-                            if(flag>0):
-                                ql[pos_1d] = -2**10
-                        
-                        # print('s',state)
-                        ma = max(ql)
-                        # print('ma',ma)
-                        for i,q in enumerate(ql):
-                            if(ma==q):
-                                action = i
-                                break
-                        
-                        # print('ql',ql,action)
-                    else:
-                        action = aa
-
-                else:  
-                    while(1):
-
-                        action  = random.randint(0,game.action_dimension-2)
-                        if(state[action]==0):
-                            break
-
+                    action,ql = self.dqn.take_action(state,epsilon)  
+                    if(ql): 
+                        pass
+                        # print('action',action,ql)      
+                else:                 
+                    action  = random.randint(0,game.action_dimension-1)
 
                 state,flag,t,w = game.step(action)
                 exp = [state,action,0]
@@ -79,9 +55,6 @@ class main_class():
             for _,exp in enumerate(exp_list):
                 if(w == 1):
                     exp[2] =1
-                    # exp[2] = 0
-                    pass
-                # print('exp',exp)
                 self.dqn.store(exp)
 
             self.dqn.learn
@@ -94,7 +67,7 @@ class main_class():
 
         if(mode == 'train'):
             print('avg',sum/n_episode,sum)
-            print('avg',sum_2/n_episode,sum_2)
+        # print('avg',sum_2/n_episode)
                 
 
 
@@ -106,7 +79,7 @@ class main_class():
         
 
         state_dimension =game.state_dimension
-        action_dimension = game.action_dimension -1
+        action_dimension = game.action_dimension
 
         td_on = 0 # mc
         # td_on = 1 # td
@@ -119,7 +92,7 @@ class main_class():
         self.dqn = DQN.DQN(state_dimension,action_dimension,device,td_on) # init 
         # self.dqn = dqn
         while(1):
-            self.fm('train',2**10)
+            self.fm('train',2**8)
             self.fm('show',2**0)
 
 

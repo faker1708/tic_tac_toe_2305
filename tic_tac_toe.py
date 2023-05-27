@@ -317,6 +317,6 @@ class game():
             if( self.__terminate == 1):
                 print(self.__record)
                 time.sleep(2)
-                os.system('cls')
+                # os.system('cls')
 
         return 
