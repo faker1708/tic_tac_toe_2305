@@ -1,6 +1,7 @@
 
 
 import pygame
+import time
 
 class tic_tac_toe():
 
@@ -31,26 +32,27 @@ class tic_tac_toe():
 
 
     def step(self,action):
-        # flag = self.flag
+        flag = self.flag
         plate = self.plate
 
         pos_1d =self.__action_to_pos(action)
-        if(pos_1d>=0):
-            if(plate[pos_1d]==0):
-                plate[pos_1d] = self.flag
-
-        self.__record.append(pos_1d)
+        if(plate[pos_1d]==0):
+            plate[pos_1d]=flag
         
         terminate,winner = self.__is_terminate()
         # if(terminate==1):
 
         # if(self.render_on):
         self.__render()
+        print('flag,step',flag)
+            
 
-        # print(self.flag)
-        self.flag = 3-self.flag
+        flag = 3 - flag
+        print('flag,step',flag)
 
-        return [plate,self.flag,terminate,winner]
+        self.flag = flag
+
+        return [plate,flag,terminate,winner]
     
     def __pos_legal(self,pos_2d):
         x = pos_2d[0]
@@ -110,11 +112,9 @@ class tic_tac_toe():
 
         for pos_1d,flag in enumerate(plate): # 遍历每个子
             # right 向右检查
-            if(flag==0):continue    # 0 是空地不能算啊。。
             pos_2d = self.__decode_pos(pos_1d)
 
-            for direction in range(2+1):      # 选择一个检查方向 0 1 2
-                # print('direction',direction)
+            for direction in range(2):      # 选择一个检查方向
                 peer_list = list()  #包含自己
                 br = 0
                 for i in range(target): #取三个子的位置来，包含自己 # 获取该方向上的连续几个子的位置
@@ -128,30 +128,17 @@ class tic_tac_toe():
                         break
                 if(br ==0):
                     # 检查是否同色  # 如果位置合法。则判断是否同色。
-                    
-                    ok = 1
                     for _,peer_1d in enumerate(peer_list):
                         p_flag = plate[peer_1d]
-                        # print('p f',p_flag,flag)
-                        if(p_flag != flag ):
-                            ok = 0
+                        if(p_flag == flag ):
+                            terminate = 1
+                            terminater = flag
                             break
-                    if(ok):
-                        print('terminate 连珠了',flag)
-                        terminate = 1
-                        terminater = flag
-                        # return [terminate,terminater]
-                        break
-                    else:
-
-                        terminate = 0
-                        terminater = 0
             if(terminate == 1):
                 break
             
         if(terminate ==0):
             # 如果尚未结局，则检查棋盘是否满了，井字栱是有平局的
-            
             tt = 1
             for pos_1d,flag in enumerate(plate):
                 if(plate[pos_1d] ==0):
@@ -163,20 +150,14 @@ class tic_tac_toe():
                 terminater = 0
                 # 平局
             else:
-                #
-                # print(' 再检查 是否双方同时弃手')
+                # 再检查 是否双方同时弃手
                 record = self.__record
-                # print('record ',record)
                 if(len(record)>=2):
                     if(record[-1]==-1 and record[-2]==-1):
-                        print('双方同时弃手了')
                         terminate = 1
                         terminater = 0
                         # 平局
 
-
-            if(terminate):
-                print('terminate','没有连珠的')
 
         self.__terminate = terminate
         return [terminate,terminater]
@@ -197,10 +178,8 @@ class tic_tac_toe():
         # state = plate.append(flag)
         # state = np.array(state)
         # state = self.get_state(flag,plate)
-        # print('__action_to_pos action_dimension',self.action_dimension)
         if(action == self.action_dimension-1): # 表示 弃手
             pos_1d= -1
-            # print('弃手')
         else:
             pos_1d = action
         return pos_1d
@@ -319,8 +298,7 @@ class tic_tac_toe():
                     # pygame.draw.circle(self.screen, fgc, pos, go_radius, width=3)
             
             pygame.display.flip() #更新屏幕内容
-            # if( self.__terminate == 1):
-            #     print(self.__record)
-            #     time.sleep(2)
+            if( self.__terminate == 0):
+                time.sleep(2)
 
         return 
