@@ -1,17 +1,15 @@
 
 
 import pygame
+import time
+import os
 
-class tic_tac_toe():
-
-
-
+class game():
 
     def __init__(self):
         self.__main()
         return 
     
-
     def reset(self):
         plate_len = self.wide* self.height
         plate = list()
@@ -28,7 +26,6 @@ class tic_tac_toe():
         self.plate = plate
         self.flag= flag
         return [plate,flag]
-
 
     def step(self,action):
         # flag = self.flag
@@ -56,6 +53,16 @@ class tic_tac_toe():
 
         return [plate,self.flag,terminate,winner]
     
+    def __main(self):
+        
+        self.render_on = 0
+
+        self.wide = 3
+        self.height = 3
+        
+        self.action_dimension = self.wide*self.height+1  # 多一个是弃手
+        self.state_dimension = self.wide*self.height
+
     def __pos_legal(self,pos_2d):
         x = pos_2d[0]
         y = pos_2d[1]
@@ -141,7 +148,7 @@ class tic_tac_toe():
                             ok = 0
                             break
                     if(ok):
-                        print('terminate 连珠了',flag)
+                        # print('terminate 连珠了',flag)
                         terminate = 1
                         terminater = flag
                         # return [terminate,terminater]
@@ -173,28 +180,18 @@ class tic_tac_toe():
                 # print('record ',record)
                 if(len(record)>=2):
                     if(record[-1]==-1 and record[-2]==-1):
-                        print('双方同时弃手了')
+                        # print('双方同时弃手了')
                         terminate = 1
                         terminater = 0
                         # 平局
 
 
-            if(terminate):
-                print('terminate','没有连珠的')
+            # if(terminate):
+            #     print('terminate','没有连珠的')
 
         self.__terminate = terminate
         return [terminate,terminater]
     
-    def __main(self):
-        
-        self.render_on = 0
-
-        self.wide = 3
-        self.height = 3
-        
-        self.action_dimension = self.wide*self.height+1  # 多一个是弃手
-        self.state_dimension = self.wide*self.height
-
     def __action_to_pos(self,action):
         pos_1d =-1
 
@@ -209,7 +206,6 @@ class tic_tac_toe():
             pos_1d = action
         return pos_1d
     
-
     def __encode_pos(self,pos_2d):
         # matrix = self.matrix
         x = pos_2d[0]
@@ -226,8 +222,6 @@ class tic_tac_toe():
         pos_2d = [go_x,go_y]
         return pos_2d
     
-
-
     def __render_reset(self):
         
         if(self.render_on):
@@ -249,9 +243,6 @@ class tic_tac_toe():
             self.screen = pygame.display.set_mode((self.screen_x,self.screen_y))
             #设置窗口标题
             pygame.display.set_caption('dva_tic_tac_toe')
-
-        
-
 
     def __render(self):
         
@@ -323,8 +314,9 @@ class tic_tac_toe():
                     # pygame.draw.circle(self.screen, fgc, pos, go_radius, width=3)
             
             pygame.display.flip() #更新屏幕内容
-            # if( self.__terminate == 1):
-            #     print(self.__record)
-            #     time.sleep(2)
+            if( self.__terminate == 1):
+                print(self.__record)
+                time.sleep(2)
+                os.system('cls')
 
         return 
